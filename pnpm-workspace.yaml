@@ -1,0 +1,101 @@
+packages:
+  - 'packages/*'
+
+# Managed by pnpm-policy — run `pnpm-policy generate` after editing pnpm-policy.yaml.
+
+# A third-party release must be 2d old before it can be installed.
+# Most malicious releases are found and yanked well inside that window.
+minimumReleaseAge: 2880
+
+# Transitive dependencies must come from the registry, not from git or a URL.
+blockExoticSubdeps: true
+allowBuilds:
+  "@launchql/protobufjs": false
+  "@parcel/watcher": false
+  nx: false
+  unrs-resolver: false
+
+# Exempt from the wait: 6 scope glob(s), 75 first-party package(s).
+# First-party membership comes from the inventory and the names claimed in pnpm-policy.yaml.
+minimumReleaseAgeExclude:
+  - "@constructive-db/*"
+  - "@constructive-io/*"
+  - "@launchql/*"
+  - "@pgpm/*"
+  - "@pgpmjs/*"
+  - "@pgsql/*"
+  - 12factor-env
+  - "@agentic-kit/ollama"
+  - "@agentic-kit/protocol"
+  - "@dataplan/json"
+  - "@dataplan/pg"
+  - "@graphile-contrib/pg-many-to-many"
+  - "@graphile/lru"
+  - "@inquirerer/utils"
+  - appstash
+  - confstash
+  - csv-to-pg
+  - etag-hash
+  - find-and-require-package-json
+  - genomic
+  - git-changed
+  - gql-ast
+  - grafast
+  - grafserv
+  - graphile-bucket-provisioner-plugin
+  - graphile-build
+  - graphile-build-pg
+  - graphile-bulk-mutations
+  - graphile-cache
+  - graphile-config
+  - graphile-connection-filter
+  - graphile-history
+  - graphile-i18n
+  - graphile-llm
+  - graphile-ltree
+  - graphile-meta
+  - graphile-pg-aggregates
+  - graphile-plugin-utils
+  - graphile-postgis
+  - graphile-presigned-url-plugin
+  - graphile-realtime-subscriptions
+  - graphile-scoped-introspection
+  - graphile-search
+  - graphile-settings
+  - graphile-storage-registry
+  - graphile-upload-plugin
+  - graphile-utils
+  - inflekt
+  - inquirerer
+  - komoji
+  - libpg-query
+  - makage
+  - mime-bytes
+  - nested-obj
+  - pg-ast
+  - pg-cache
+  - pg-env
+  - pg-introspection
+  - pg-proto-parser
+  - pg-query-context
+  - pg-seed
+  - pg-sql2
+  - pgpm
+  - pgsql-client
+  - pgsql-deparser
+  - pgsql-parser
+  - pgsql-seed
+  - pgsql-test
+  - plpgsql-deparser
+  - plpgsql-parser
+  - pnpm-policy
+  - postgraphile
+  - query-spec
+  - ruru
+  - ruru-types
+  - safegres
+  - strfy-js
+  - tamedevil
+  - uuid-hash
+  - yamlize
+  - yanse
