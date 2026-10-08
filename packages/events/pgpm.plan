@@ -1,0 +1,17 @@
+%syntax-version=1.0.0
+%project=events
+%uri=events
+
+schemas/events 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com> # events schema
+schemas/events/types/event_status [schemas/events] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/tables/venues [schemas/events organizers:schemas/organizers/tables/organizers] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/tables/venues/indexes/venues_organizer_id_idx [schemas/events/tables/venues] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/tables/venues/triggers/set_updated_at [schemas/events/tables/venues common:schemas/common/functions/set_updated_at] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/tables/events [schemas/events/types/event_status schemas/events/tables/venues] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/tables/events/indexes/events_venue_id_idx [schemas/events/tables/events] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/tables/events/indexes/events_starts_at_idx [schemas/events/tables/events] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/tables/events/triggers/set_updated_at [schemas/events/tables/events common:schemas/common/functions/set_updated_at] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/tables/events/triggers/set_slug [schemas/events/tables/events common:schemas/common/functions/slugify] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/functions/publish_event [schemas/events/tables/events] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/functions/cancel_event [schemas/events/tables/events] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>
+schemas/events/views/upcoming_events [schemas/events/tables/events] 2026-10-07T23:20:59Z Dan Lynch <pyramation@gmail.com>

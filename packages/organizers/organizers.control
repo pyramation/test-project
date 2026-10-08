@@ -1,0 +1,7 @@
+# organizers extension
+comment = 'Organizers that host events'
+default_version = '0.0.1'
+module_pathname = '$libdir/organizers'
+requires = 'common'
+relocatable = false
+superuser = false

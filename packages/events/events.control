@@ -1,0 +1,7 @@
+# events extension
+comment = 'Events, venues, and scheduling'
+default_version = '0.0.1'
+module_pathname = '$libdir/events'
+requires = 'organizers,common'
+relocatable = false
+superuser = false

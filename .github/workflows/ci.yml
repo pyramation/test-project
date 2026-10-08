@@ -19,7 +19,7 @@ jobs:
         # new module here, keeping the list sorted; edit it by hand as you like.
         # GitHub rejects an empty matrix, so this workflow is valid once the
         # workspace has its first module.
-        package: []
+        package: [packages/common, packages/events, packages/organizers, packages/tickets]
 
     env:
       PGHOST: localhost
@@ -107,6 +107,90 @@ jobs:
 
       - name: Test ${{ matrix.package }}
         run: cd ./${{ matrix.package }} && pnpm test
+
+  # Proves every module survives the whole migration lifecycle, not just a
+  # fresh deploy: deploy -> verify -> revert -> redeploy, each module in its own
+  # database (--force-all) so a module's own `requires` has to be complete
+  # rather than satisfied by a sibling that happened to deploy first.
+  migrations:
+    name: Migration full cycle (pgpm test-packages)
+    runs-on: ubuntu-latest
+
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: password
+      PGPM_VERSION: 5.30.6
+
+    services:
+      pg_db:
+        image: constructiveio/postgres-plus:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 3s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache pgpm CLI
+        id: cache-pgpm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: pgpm-${{ env.PGPM_VERSION }}
+
+      - name: Install pgpm CLI globally
+        run: npm install -g pgpm@${{ env.PGPM_VERSION }}
+
+      - name: Tune Postgres for CI (disable durability)
+        run: pgpm tune --yes
+
+      - name: Seed pg and app_user
+        run: |
+          pgpm admin-users bootstrap --yes
+          pgpm admin-users add --test --yes
+
+      - name: Deploy, verify, revert, redeploy every module
+        run: pgpm test-packages --full-cycle --force-all
+
+  # Every module commits its build artifact (packages/<name>/sql/*.bundle.tar.gz,
+  # produced by `pgpm package`). This read-only check fails the PR when a
+  # module's deploy/ SQL changed without the bundle being rebuilt. No database
+  # needed; fetch-depth 0 so the diff against the base branch is available.
+  bundle-check:
+    name: Bundle drift (pgpm package --check)
+    runs-on: ubuntu-latest
+
+    env:
+      PGPM_VERSION: 5.30.6
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cache pgpm CLI
+        id: cache-pgpm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: pgpm-${{ env.PGPM_VERSION }}
+
+      - name: Install pgpm CLI globally
+        run: npm install -g pgpm@${{ env.PGPM_VERSION }}
+
+      - name: Verify pgpm bundles are in sync
+        run: pgpm package --check --all --no-fail-fast
 
   # The security + performance audit of the schema this workspace deploys
   # (safegres, configured in the root safegres.config.js): every module under

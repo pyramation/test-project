@@ -1,0 +1,18 @@
+%syntax-version=1.0.0
+%project=tickets
+%uri=tickets
+
+schemas/tickets 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com> # tickets schema
+schemas/tickets/types/ticket_status [schemas/tickets] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/tables/ticket_types [schemas/tickets events:schemas/events/tables/events] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/tables/ticket_types/triggers/set_updated_at [schemas/tickets/tables/ticket_types common:schemas/common/functions/set_updated_at] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/tables/attendees [schemas/tickets] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/tables/attendees/triggers/set_updated_at [schemas/tickets/tables/attendees common:schemas/common/functions/set_updated_at] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/tables/tickets [schemas/tickets/types/ticket_status schemas/tickets/tables/ticket_types schemas/tickets/tables/attendees] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/tables/tickets/indexes/tickets_ticket_type_id_idx [schemas/tickets/tables/tickets] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/tables/tickets/indexes/tickets_attendee_id_idx [schemas/tickets/tables/tickets] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/tables/tickets/triggers/set_updated_at [schemas/tickets/tables/tickets common:schemas/common/functions/set_updated_at] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/functions/tickets_remaining [schemas/tickets/tables/tickets] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/functions/reserve_ticket [schemas/tickets/functions/tickets_remaining events:schemas/events/tables/events] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/functions/confirm_ticket [schemas/tickets/tables/tickets] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>
+schemas/tickets/functions/cancel_ticket [schemas/tickets/tables/tickets] 2026-10-07T23:22:18Z Dan Lynch <pyramation@gmail.com>

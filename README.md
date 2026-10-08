@@ -11,6 +11,48 @@
 </p>
 
 
+## Events platform schema
+
+The workspace holds four pgpm modules under `packages/`, each a self-contained schema
+that depends only on the modules below it. Deploying `tickets` deploys the whole stack.
+
+| Module | Schema | Requires | What it owns |
+| --- | --- | --- | --- |
+| `common` | `common` | — | `set_updated_at()` trigger function, `slugify(text)` |
+| `organizers` | `organizers` | `common` | `organizers` — who hosts events |
+| `events` | `events` | `organizers`, `common` | `venues`, `events` (`event_status` enum), `publish_event()`, `cancel_event()`, `upcoming_events` view |
+| `tickets` | `tickets` | `events`, `common` | `ticket_types`, `attendees`, `tickets` (`ticket_status` enum), `reserve_ticket()`, `confirm_ticket()`, `cancel_ticket()`, `tickets_remaining()` |
+
+Lifecycle in one sentence: an organizer creates an event (its slug derives from the
+title), publishes it, attaches ticket types with a fixed quantity, and
+`tickets.reserve_ticket()` hands out seats under a row lock until the type is sold out;
+cancelling a ticket frees its seat.
+
+```sh
+# Deploy the whole stack into a local database
+cd packages/tickets
+pgpm deploy --createdb --database events_dev --package tickets --yes
+
+# Every module's Jest suite (pgsql-test deploys the module and its dependencies into a throwaway database)
+pnpm test
+
+# Deploy -> verify -> revert -> redeploy every module, each in its own database
+pgpm test-packages --full-cycle --force-all
+```
+
+Each module ships `deploy/`, `revert/` and `verify/` SQL for every change, a Jest suite
+in `__tests__/`, and a build artifact in `sql/` produced by `pgpm package`. Rebuild and
+commit the artifact whenever you change a module's SQL — CI fails otherwise.
+
+### CI
+
+`.github/workflows/ci.yml` runs four jobs on every push and pull request:
+
+- **pgpm tests** — a matrix with one job per module running `pnpm test`.
+- **Migration full cycle** — `pgpm test-packages --full-cycle --force-all`.
+- **Bundle drift** — `pgpm package --check --all`, no database needed.
+- **Database audit** — the safegres audit below, with a sticky PR comment.
+
 ## Getting Started
 
 This workspace was generated with `pgpm init workspace`. For a complete guide on developing with pgpm workspaces, see [Workspaces: Organize Postgres](https://constructive.io/learn/modular-postgres/workspaces-organize-postgres).

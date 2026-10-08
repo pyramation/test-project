@@ -1,0 +1,29 @@
+{
+  "name": "events",
+  "version": "0.0.1",
+  "author": "Dan Lynch <pyramation@gmail.com>",
+  "description": "events",
+  "homepage": "https://github.com/pyramation/test-project",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "restricted",
+    "directory": "dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pyramation/test-project"
+  },
+  "bugs": {
+    "url": "https://github.com/pyramation/test-project/issues"
+  },
+  "scripts": {
+    "lint": "eslint . --fix",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "pgsql-test": "^5.9.7",
+    "makage": "^0.5.1"
+  }
+}

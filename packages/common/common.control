@@ -1,0 +1,6 @@
+# common extension
+comment = 'Shared helper functions for the events platform'
+default_version = '0.0.1'
+module_pathname = '$libdir/common'
+relocatable = false
+superuser = false

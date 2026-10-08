@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=common
+%uri=common
+
+schemas/common 2026-10-07T23:19:39Z Dan Lynch <pyramation@gmail.com> # common schema
+schemas/common/functions/set_updated_at [schemas/common] 2026-10-07T23:19:39Z Dan Lynch <pyramation@gmail.com> # updated_at trigger function
+schemas/common/functions/slugify [schemas/common] 2026-10-07T23:19:39Z Dan Lynch <pyramation@gmail.com> # slugify helper

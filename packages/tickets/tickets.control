@@ -1,0 +1,7 @@
+# tickets extension
+comment = 'Ticket types, attendees, and ticket reservations'
+default_version = '0.0.1'
+module_pathname = '$libdir/tickets'
+requires = 'events,common'
+relocatable = false
+superuser = false

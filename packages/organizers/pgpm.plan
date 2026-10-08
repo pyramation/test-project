@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=organizers
+%uri=organizers
+
+schemas/organizers 2026-10-07T23:19:56Z Dan Lynch <pyramation@gmail.com> # organizers schema
+schemas/organizers/tables/organizers [schemas/organizers] 2026-10-07T23:19:56Z Dan Lynch <pyramation@gmail.com> # organizers table
+schemas/organizers/tables/organizers/triggers/set_updated_at [schemas/organizers/tables/organizers common:schemas/common/functions/set_updated_at] 2026-10-07T23:19:56Z Dan Lynch <pyramation@gmail.com>

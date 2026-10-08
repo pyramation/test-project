@@ -50,7 +50,15 @@ module.exports = {
   perf: {
     enabled: true,
     baseline: 'safegres-perf-baseline.json',
-    failOnNew: true
+    failOnNew: true,
+    rules: {
+      // X8 flags every timestamptz column that does not lead an index, on the
+      // assumption that an API paginates by it. Nothing here orders by
+      // created_at/updated_at; the columns an API does sort on (starts_at on
+      // published events) carry their own index. Re-enable if a cursor API
+      // starts ordering by these columns.
+      X8: 'off'
+    }
   },
 
   // safegres.json / safegres.md / safegres.sarif, re-derived on every run —
